@@ -1,12 +1,11 @@
 name: Triggers
-run-name: ¡Estoy aprendiendo a usar diferentes Triggers!
 on:
   push:
     branches:
-      - main
+      - master
   pull_request:
-    types: [opened,synchronize,reopened]
-    paths: 
+    types: [opened, synchronize, reopened]
+    paths:
       - '**.py'
   issues:
     types:
@@ -25,31 +24,29 @@ on:
       nombre:
         description: 'Tu nombre'
         required: true
-        default: Jeni
+        default: Juan
         type: string
-    schedule:
-      -cron: '15 22 * * *' ## zona horaria UTC
+  schedule:
+    - cron:  '15 22 * * *'
 jobs:
   hola-mundo-manual:
     runs-on: ubuntu-latest
     steps:
-     - name: Checkout
-       uses: actions/checkout@v3
-     - name: Definir nombre
-       run: echo "USERNAME=${{ inputs.name }}" >>  $GITHUB_ENV
-     - name: Definir lenguaje
-       run: echo "LENGUAJE=${{  inputs.lenguaje_favorito }}" >>  $GITHUB_ENV
-     - name: Correr script
-       run: python hola_lenguaje.py
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Definir nombre
+        run: echo "USERNAME=${{ inputs.nombre }}" >> $GITHUB_ENV
+      - name: Definir lenguaje
+        run: echo "LANGUAGE=${{ inputs.lenguaje_favorito }}" >> $GITHUB_ENV
+      - name: Correr script
+        run: python hola_lenguaje.py
   hola-mundo:
     if: ${{ github.event_name != 'workflow_dispatch' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name : Definir variable
+      - name: Definir variable
         run: echo "USERNAME=${{ github.actor }}" >> $GITHUB_ENV
       - name: Correr script
-        run: pyhton hola_mundo.py
-
-  
+        run: python hola_mundo.py
